@@ -1,112 +1,53 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+// Include the necessary header file for the hash table
 #include "utils.h"
 
-#define TABLE_SIZE 16
-#define MAX_KEY_LENGTH 256
-
-typedef struct {
-    int key;
-    char value[MAX_KEY_LENGTH];
-} entry_t;
-
-typedef struct {
-    entry_t *entries;
+// Define the hash table structure
+typedef struct HashTable {
     int size;
-} hash_table_t;
+    int capacity;
+    int* keys;
+    int* values;
+} HashTable;
 
-hash_table_t *hash_table_create() {
-    hash_table_t *table = malloc(sizeof(hash_table_t));
-    if (table == NULL) {
-        fprintf(stderr, "Memory allocation failed.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    table->entries = calloc(TABLE_SIZE, sizeof(entry_t));
-    if (table->entries == NULL) {
-        fprintf(stderr, "Memory allocation failed.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    table->size = TABLE_SIZE;
-
+// Function to create a new hash table
+HashTable* createHashTable(int capacity) {
+    HashTable* table = malloc(sizeof(HashTable));
+    table->size = 0;
+    table->capacity = capacity;
+    table->keys = malloc(capacity * sizeof(int));
+    table->values = malloc(capacity * sizeof(int));
     return table;
 }
 
-int hash_function(int key) {
-    return key % TABLE_SIZE;
-}
-
-int hash_table_insert(hash_table_t *table, int key, const char *value) {
-    int index = hash_function(key);
-
-    if (table->entries[index].key != 0) {
-        for (int i = index + 1; i < TABLE_SIZE; i++) {
-            if (table->entries[i].key == 0) {
-                index = i;
-                break;
-            }
+// Function to insert a key-value pair into the hash table
+void insert(HashTable* table, int key, int value) {
+    // Calculate the index using the hash function
+    int index = key % table->capacity;
+    // Check if the key already exists in the table
+    for (int i = 0; i < table->size; i++) {
+        if (table->keys[i] == key) {
+            // Update the value if the key already exists
+            table->values[i] = value;
+            return;
         }
     }
-
-    if (index >= TABLE_SIZE) {
-        fprintf(stderr, "Hash table is full.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if (table->entries[index].key != 0) {
-        fprintf(stderr, "Key already exists.\n");
-        return -1;
-    }
-
-    table->entries[index].key = key;
-    strcpy(table->entries[index].value, value);
-
-    return 0;
+    // If the key does not exist, add it to the table
+    table->keys[table->size] = key;
+    table->values[table->size] = value;
+    table->size++;
 }
 
-int hash_table_lookup(hash_table_t *table, int key) {
-    int index = hash_function(key);
-
-    if (table->entries[index].key == key) {
-        return 0; // found
-    }
-
-    for (int i = index + 1; i < TABLE_SIZE; i++) {
-        if (table->entries[i].key == key) {
-            return 0; // found
+// Function to get the value associated with a key
+int getValue(HashTable* table, int key) {
+    // Calculate the index using the hash function
+    int index = key % table->capacity;
+    // Check if the key exists in the table
+    for (int i = 0; i < table->size; i++) {
+        if (table->keys[i] == key) {
+            // Return the value associated with the key
+            return table->values[i];
         }
     }
-
-    return -1; // not found
-}
-
-int hash_table_delete(hash_table_t *table, int key) {
-    int index = hash_function(key);
-
-    if (table->entries[index].key != key) {
-        for (int i = index + 1; i < TABLE_SIZE; i++) {
-            if (table->entries[i].key == key) {
-                index = i;
-                break;
-            }
-        }
-    }
-
-    if (index >= TABLE_SIZE) {
-        fprintf(stderr, "Key not found.\n");
-        return -1;
-    }
-
-    table->entries[index].key = 0;
-    table->entries[index].value[0] = '\0';
-
-    return 0;
-}
-
-void hash_table_destroy(hash_table_t *table) {
-    free(table->entries);
-    free(table);
+    // If the key does not exist, return -1
+    return -1;
 }
