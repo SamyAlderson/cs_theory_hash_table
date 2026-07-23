@@ -1,4 +1,5 @@
-// Include the necessary header for the hash table implementation
-#include "hash_table.h"
+#include "utils.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-// ... rest of the file remains the same ...
+// ... rest of the file remains the same
