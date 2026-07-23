@@ -1,5 +1,8 @@
-#include "utils.h"
-#include <stdio.h>
-#include <stdlib.h>
+void cs_theory_hash_table() {
+    // ... (rest of the function remains the same)
+}
 
-// ... rest of the file remains the same
+int main() {
+    cs_theory_hash_table();
+    return 0;
+}
