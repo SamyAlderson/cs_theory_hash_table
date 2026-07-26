@@ -1,15 +1,25 @@
-__pycache__/
+# .gitignore
+
+# ignore build artifacts
+/dist
+/build
+
+# ignore IDE files
+.idea
+.vscode
+
+# ignore node_modules
+node_modules
+
+# ignore pyc files
 *.pyc
-.pytest_cache/
-.env
-*.egg-info/
-dist/
-build/
-.venv/
-node_modules/
-target/
-bin/
-obj/
-*.o
-*.so
-*.dylib/
+
+# ignore coverage reports
+coverage.xml
+coverage.html
+
+# ignore pip cache
+~/.cache/pip
+
+# ignore virtualenv
+env/
