@@ -1,25 +1,46 @@
-# .gitignore
-
-# ignore build artifacts
-/dist
-/build
-
-# ignore IDE files
+# ignore .idea and .vscode folders
 .idea
 .vscode
 
-# ignore node_modules
+# ignore .env files
+.env
+
+# ignore build and dist folders
+build
+dist
+
+# ignore node_modules and yarn.lock
 node_modules
+yarn.lock
 
-# ignore pyc files
-*.pyc
+# ignore pycache and __pycache__ folders
+__pycache__
+pycache
 
-# ignore coverage reports
-coverage.xml
-coverage.html
+# ignore coverage data
+.coverage
 
-# ignore pip cache
-~/.cache/pip
+# ignore IDE and editor settings
+*.iml
+*.sublime-project
+*.sublime-workspace
+*.vscode
 
-# ignore virtualenv
-env/
+# ignore IDE and editor backups
+*.swp
+*.swo
+*.tmp
+
+# ignore macOS and Linux files
+.DS_Store
+Thumbs.db
+
+# ignore Python cache
+__pycache__/
+*.py[cod]
+
+# ignore other IDEs and editors
+.project
+.settings
+*.tmproj
+*.tmprojx
